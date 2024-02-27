@@ -66,7 +66,7 @@ let addMoreBlack = function(currentR, currentG, currentB) {
     return newR, newG, newB
 }
 
-boardDiv.addEventListener('click', (event) => {
+boardDiv.addEventListener('mouseover', (event) => {
     event.stopPropagation();
     let target = event.target;
     // console.log(target.style.backgroundColor);
@@ -85,7 +85,7 @@ boardDiv.addEventListener('click', (event) => {
         targetArray[0] = Number(targetArray[0].replace('rgb(', ''));
         targetArray[3] = Number(targetArray[1].replace(' ', ''));
         targetArray[2] = Number(targetArray[2].replace(')', ''));
-        target.style.backgroundColor = `rgba(${targetArray[0] - 25}, ${targetArray[1] - 25}, ${targetArray[2] - 25})`;
+        target.style.backgroundColor = `rgba(${targetArray[0] - 30}, ${targetArray[1] - 30}, ${targetArray[2] - 30})`;
         console.log(target.style.backgroundColor);
     }
     console.log(target.getAttribute('name'))
