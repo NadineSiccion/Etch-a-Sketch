@@ -9,6 +9,10 @@ let removeAllChildNodes = function(parent) {
     }
 }
 
+let getRandomRGB = function() {
+    return Math.floor(Math.random() * 255)
+}
+
 let target;
 // establish board size
 let setupBoard = function(boardW) {
@@ -26,7 +30,7 @@ let setupBoard = function(boardW) {
         target.style.width = pixelSide + 'px';
         target.style.height = pixelSide + 'px';
         target.setAttribute('name', i.toString())
-        target.style.backgroundColor = 'rgba(255,255,255, 0.0)'
+        target.style.backgroundColor = `rgba(255, 255, 255)`
         // target.textContent = i
         boardDiv.appendChild(target);
 }}
@@ -53,19 +57,36 @@ resetButton.addEventListener('click', (e) => {
 });
 
 // change opacity on click
+// actually, change RDB on click
+
+let addMoreBlack = function(currentR, currentG, currentB) {
+    newR = (255 - currentR)/10
+    newG = (255 - currentG)/10
+    newB = (255 - currentB)/10
+    return newR, newG, newB
+}
+
 boardDiv.addEventListener('click', (event) => {
     event.stopPropagation();
     let target = event.target;
     // console.log(target.style.backgroundColor);
     let rgbaArray = (target.style.backgroundColor.split(','))
-    if (rgbaArray[3] == null) {
-        console.log('bgcolor set to max opacity')
-    } else if (Number(rgbaArray[3].replace(")", "")) == 0) {
-        target.style.backgroundColor = `rgba(0, 0, 0, ${0.1})`
-        console.log('bgcolor set')
+    console.log(typeof rgbaArray[0])
+    rgbaArray[0] = Number(rgbaArray[0].replace('rgb(', ''));
+    rgbaArray[3] = Number(rgbaArray[1].replace(' ', ''));
+    rgbaArray[2] = Number(rgbaArray[2].replace(')', ''));
+    if (rgbaArray[0] == 255 && rgbaArray[1] == 255 && rgbaArray[2] == 255) {
+        target.style.backgroundColor = `rgba(${getRandomRGB()}, ${getRandomRGB()}, ${getRandomRGB()})`;
+        console.log('changed color')
+    } else if (rgbaArray[0] == 0 && rgbaArray[1] == 0 && rgbaArray[2] == 0) {
+        console.log('color is already black')
     } else {
-        target.style.backgroundColor = `rgba(0, 0, 0, ${Number(rgbaArray[3].replace(")", ""))+0.1})`
-        console.log('bgcolor opacity decreased')
+        targetArray = (target.style.backgroundColor.split(','))
+        targetArray[0] = Number(targetArray[0].replace('rgb(', ''));
+        targetArray[3] = Number(targetArray[1].replace(' ', ''));
+        targetArray[2] = Number(targetArray[2].replace(')', ''));
+        target.style.backgroundColor = `rgba(${targetArray[0] - 25}, ${targetArray[1] - 25}, ${targetArray[2] - 25})`;
+        console.log(target.style.backgroundColor);
     }
     console.log(target.getAttribute('name'))
 })
