@@ -1,0 +1,1 @@
+const boardDiv = document.querySelector('div.board');
